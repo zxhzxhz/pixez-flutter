@@ -64,7 +64,9 @@ class PixivImage extends StatefulWidget {
     final client = await r.RhttpCompatibleClient.createSync(
         settings: (userSetting.disableBypassSni ||
                 userSetting.pictureSource != ImageHost)
-            ? null
+            ? r.ClientSettings(
+        tlsSettings: r.TlsSettings(verifyCertificates: false), // 即使走系统代理也关闭验证
+      )
             : r.ClientSettings(
                 tlsSettings:
                     r.TlsSettings(verifyCertificates: false, sni: false),
